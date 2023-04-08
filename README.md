@@ -1,5 +1,6 @@
 # Image to Color Palette v1.0
 A demonstration of using [Borer](http://github.com/turtledna/borer) to sample an image into a color palette. Borer is an example of sequenced programming using turtle functions and sequences to read and alter data including images.
+See http://turtledna.neocities.org/imagetocolorpalette/index.html for a working demo.
 
 ![Demonstration image](ss.png)
 
