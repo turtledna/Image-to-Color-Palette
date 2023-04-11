@@ -2,6 +2,8 @@
 class bexBorer
 {
 	script  = 0;
+	imageX  = 0;
+	imageY  = 0;
 	codex   = 0;
 	index   = 0;
 	body    = new Array();
@@ -23,6 +25,12 @@ class bexBorer
 
 	constructor()
 	{
+	}
+
+	size( x, y )
+	{
+		this.imageX = x;
+		this.imageY = y;
 	}
 
 	canvas( canvas )
@@ -126,9 +134,10 @@ class bexBorer
 		];
 
 		// Fill the background with white
+		var bx = Math.ceil( Math.sqrt( this.body.length ) );
 		ctx.clearRect( 0, 0, 
-			500 * this.script.getPixelWidth(), 
-			500 * this.script.getPixelHeight() );
+			this.script.getPixelNX() * this.script.getPixelWidth() , 
+			this.script.getPixelNY() * this.script.getPixelHeight() );
 
 		// Fill the body
 		var scriptWidth = this.script.width();

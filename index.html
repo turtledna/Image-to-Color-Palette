@@ -19,9 +19,9 @@
 
 <canvas id="image"></canvas>
 
-<div id="sample" style="width: 320px; height:320px; margin:15px; position: relative; float:left;">
-<canvas id="script" width="320" height="320" style="position:absolute; z-index:0;"></canvas>
-<canvas id="borer0" width="320" height="320" style="position:absolute; z-index:1;"></canvas>
+<div id="sample" style="width: 300px; height:300px; margin:15px; position: relative; float:left;">
+<canvas id="script" width="300" height="300" style="position:absolute; z-index:0;"></canvas>
+<canvas id="borer0" width="300" height="300" style="position:absolute; z-index:1;"></canvas>
 
 </div>
 <div id="appWrapper" style="position: absolute; background:yellow; width: 100%;">
@@ -42,11 +42,49 @@ One of the utilities of a scanner is that we can play with colors easily. Here I
 	<button>Upload</button>
 </form>
 </div>
-<div id="colorWrapper" style="100%;">
+<div id="colorWrapper" style="width: 100%;">
 <div id="colorinfo" style="position: static; width: 100%;">
 </div>
 </div>
 
+<!--///
+ // HEX 
+ ////-->
+
+<h2>Hex</h2>
+<div id="colorHex" style="width:100%; border:1px solid #dfdfdf; padding:10px; background:#efefef;">
+</div>
+<div style="padding: 10px;">
+<input type="button" id="colorHexCopy" value="Copy to clipboard" style="font-size: 32px;">
+</div>
+<script language="Javascript">
+function colorHexCopyFn()
+{
+	var text = document.getElementById( "colorHex" ).innerHTML;
+	navigator.clipboard.writeText( text );
+}
+document.getElementById( "colorHexCopy" ).addEventListener( "click", colorHexCopyFn );
+</script>
+
+<!--///
+ // RGBA
+ ////-->
+
+<h2>RGBA</h2>
+<div id="colorRGBA" style="width:100%; border:1px solid #dfdfdf; padding:10px; background:#efefef;">
+</div>
+<div style="padding: 10px;">
+<input type="button" id="colorRGBACopy" value="Copy to clipboard" style="font-size: 32px;">
+</div>
+<script language="Javascript">
+function colorRGBACopyFn()
+{
+	var text = document.getElementById( "colorRGBA" ).innerHTML;
+	navigator.clipboard.writeText( text );
+}
+document.getElementById( "colorRGBACopy" ).addEventListener( "click", colorRGBACopyFn );
+</script>
+<br>
 
 
 <script language="Javascript">
@@ -97,7 +135,7 @@ function handleSubmit (event) {
 	reader.onload = logFile;
 
 	// Read the file
-	console.log( file.files[ 0 ] );
+	//console.log( file.files[ 0 ] );
 	reader.readAsDataURL( file.files[0] );
 }
 // Get the form and file field
@@ -120,10 +158,10 @@ function logFile (event) {
 
 	img.onload = function uploadedFile()
 	{
-		console.log( 'loaded str=', str );
-		console.log( 'loaded image=', img );
-		console.log( 'width=', img.naturalWidth );
-		console.log( 'height=', img.naturalHeight );
+		//console.log( 'loaded str=', str );
+		//console.log( 'loaded image=', img );
+		//console.log( 'width=', img.naturalWidth );
+		//console.log( 'height=', img.naturalHeight );
 
 		borers = new Array();
 		scripts = new Array();
@@ -193,7 +231,7 @@ function logFile (event) {
 		scripts.push( s );
 		//s.paint();
 		//script = s;
-		console.log( 'loaded script=', s );
+		//console.log( 'loaded script=', s );
 
 		/**
 		 * Borer
@@ -292,6 +330,38 @@ function colorinfo()
 				+ rgb[ 2 ] + ' ); width:75px; height: 50px; vertical-align:middle; color:#ffffff;"></div><div style="background:#333333; font-size:12px; color:#ffffff;">' + hex + '</div></span>';
 			c.innerHTML += '';
 		}
+
+		/*
+		 * Hex
+		 */
+		c.innerHTML += '<div style="clear:both;"></div>';//<h2>Hex</h2>';
+		var string = '';
+		for (  var i = 0; i < colors.length; i++ )
+		{
+			var rgb = colors[ i ];
+			var hex = rgbToHex( rgb );
+			if ( string.length )
+				string += ', ';
+			string += hex;
+		}
+		var elem = document.getElementById( "colorHex" );
+		elem.innerHTML = string;
+
+		/*
+		 * RGBA
+		 */
+		var string = '';
+		for (  var i = 0; i < colors.length; i++ )
+		{
+			if ( string.length )
+				string += ', ';
+			string += colors[ i ][ 0 ] + ', ';
+			string += colors[ i ][ 1 ] + ', ';
+			string += colors[ i ][ 2 ] + ', ';
+			string += '255';
+		}
+		var elem = document.getElementById( "colorRGBA" );
+		elem.innerHTML = string;
 		//console.log( colors );
 	}
 	setTimeout( colorinfo, 30 );
@@ -330,19 +400,19 @@ function loadimage()
 		console.log( base_image );
 		var imageX = base_image.naturalWidth;
 		var imageY = base_image.naturalHeight;
-		var width = 300;
+		var width  = 300;
 		var height = 300;
-		var unitX = 5;
-		var unitY = 5;
-		var sX = width / ( imageX * unitX );
+		var unitX  = 5;
+		var unitY  = 5;
+		var sX = width  / ( imageX * unitX );
 		var sY = height / ( imageY * unitY );
-		canvas.width = imageX;
+		canvas.width  = imageX;
 		canvas.height = imageY;
 		context = canvas.getContext('2d');
 		context.drawImage( base_image, 0, 0 );
 		var data = context.getImageData( 0, 0, imageX, imageY );
 		context.clearRect( 0, 0, imageX, imageY );
-		canvas.width = 0;
+		canvas.width  = 0;
 		canvas.height = 0;
 		script.image( 0, 0, imageX, imageY, data );
 

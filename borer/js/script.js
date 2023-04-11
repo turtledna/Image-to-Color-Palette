@@ -2,6 +2,8 @@ class bexScript
 {
 	#blocks	 = new bexBlocks();
 	#pixels 	 = new Array();
+	#imageX	 = 0;
+	#imageY	 = 0;
 	#pixelNX  	 = 0;
 	#pixelNY 	 = 0;
 	#pixelWidth  = 0;
@@ -32,11 +34,8 @@ class bexScript
 
 	image( a, b, c, d, image )
 	{
-		//console.log( c );
-		//console.log( a );
 		this.#pixelNX = c - a;
 		this.#pixelNY = d - b;
-		console.log( 'image data=', image );
 		var data = new Array();
 		var n = Math.floor( image.data.length / 4 );
 		for ( var i = 0; i < n; i++ )
@@ -50,10 +49,8 @@ class bexScript
 			data.push( [ 0, 0, color, 0 ] );
 		}
 		this.#blocks.data( data );
-		//console.log( 'pixelNX =', this.#pixelNX );
 		this.#blocks.reform( this.#pixelNX, this.#pixelNY );
 		this.changed = 1;
-		console.log( 'blocks=', this.#blocks );
 	}
 
 	generate( x, y, pixelWidth, pixelHeight )
@@ -63,22 +60,6 @@ class bexScript
 		this.#pixelWidth = pixelWidth;
 		this.#pixelHeight = pixelHeight;
 		return 0;
-	}
-
-	rect( a, b, c, d, color, context )
-	{
-		for ( var i = a; i < c; i++ )
-		{
-			for ( var j = b; j < d; j++ )
-			{
-				var n = ( i * this.#pixelNX ) + j;
-				var pixel = this.#pixels[ n ];
-				pixel.fill( color, context );
-				//var block = this.#blocks.get( n );
-				//block.fill( color, context );
-			}
-			
-		}	
 	}
 
 	fill( color, context )
@@ -91,7 +72,6 @@ class bexScript
 
 	paint()
 	{
-		//console.log( 'painting blocks' );
 		this.#blocks.paint( this.context, this.#pixelWidth, this.#pixelHeight );
 	}
 
@@ -118,33 +98,6 @@ class bexScript
 			}
 		}
 		this.#blocks.data( data );
-	}
-
-	mess( a, b, c, d, colors, context )
-	{
-		for ( var i = a; i < c; i++ )
-		{
-			for ( var j = b; j < d; j++ )
-			{
-				var n = ( i * this.#pixelNX ) + j;
-				var pixel = this.#pixels[ n ];
-				var r = Math.random();
-				var number = r * colors.length;
-				//console.log( r );
-				var f = Math.floor( number );
-				var color = [
-					colors[ f ][ 0 ],
-					colors[ f ][ 1 ],
-					colors[ f ][ 2 ],
-					colors[ f ][ 3 ]
-				];
-				var cd = color;
-				//console.log( 'cd =', cd );
-				
-				pixel.fill( cd, context );
-			}
-			
-		}
 	}
 
 	width()
