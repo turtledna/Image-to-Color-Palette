@@ -22,6 +22,7 @@ class bexBorer
 	temper = 0;
 	stopped = 0;
 	colorInformation = new Array();
+	input = { distance: 60 };
 
 	constructor()
 	{
@@ -72,11 +73,10 @@ class bexBorer
 		if ( this.stopped )
 			return 0;
 		var code = this.body[ this.pos ];
-		//console.log( code );
 		var f = this.codex[ code ];
 		if ( f )
 			f( this );
-		//console.log( f );
+
 		this.pos = ( this.pos + 1 ) % this.body.length;
 		this.code = this.body[ this.pos ];
 		if ( this.pos == 0 )
@@ -86,7 +86,6 @@ class bexBorer
 				frame.push( this.body[ i ] );
 			this.frames.push( frame );
 		}
-		//console.log( this );
 	}
 
 	stop()
@@ -102,7 +101,7 @@ class bexBorer
 		this.pos    	= 0;
 		this.maiden 	= 1;
 		this.scanners 	= 0;
-		this.step 		= 1;
+		this.step 	= 1;
 		this.executing 	= 0;
 		this.height 	= 0;
 		this.temper 	= 0;
@@ -158,7 +157,7 @@ class bexBorer
 			y += cornerY;
 			x *= px;
 			y *= py;
-			//console.log( [ x, y ] );
+
 			var code = this.body[ i ];
 			var color = palette[ code ];
 			ctx.fillStyle = color;
@@ -166,16 +165,12 @@ class bexBorer
 				ctx.fillStyle = "white";
 			else if ( this.scanners )
 			{
-				//console.log( this.scanners );
-				//this.scanners.test();
-				//console.log( this.scanners.fetchArray );
 				var array = this.scanners.fetchArray();
 				for ( var k = 0; k < array.length; k++ )
 				{
 					var s = array[ k ];
 					if ( i == s.pos )
 					{
-						//console.log( 'using style=blue' );
 						ctx.fillStyle = "blue";
 					}
 				}
@@ -183,10 +178,6 @@ class bexBorer
 
 			ctx.globalAlpha = 0.7;
 			ctx.fillRect( x, y, px, py );
-			//var x = this.script.getPixelWidth() * i;
-			//var y = this.script.getPixelHeight() * Math.floor( i / scriptWidth );	
 		}
-
-
 	}
 }

@@ -57,9 +57,6 @@ codex.push (
 
 codex.push ( 
 	function height( borer ) {
-		var x = borer.script.getPixelNX();
-		var y = borer.script.getPixelNY();
-		var n = x * y;
 		var scanner = borer.scanners.cursed();
 		if ( scanner )
 			borer.height = scanner.pos;
@@ -193,7 +190,7 @@ codex.push (
 				for ( var j = 0; j < 3; j++ )
 					distance += Math.abs( colors[ i ][ j ] - b.color[ j ] );
 				//console.log( 'distance =', distance );
-				if ( distance < 60 )
+				if ( distance < borer.input.distance )
 				{
 					if ( di == -1 )
 					{
