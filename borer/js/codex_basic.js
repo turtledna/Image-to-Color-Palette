@@ -57,6 +57,8 @@ codex.push (
 
 codex.push ( 
 	function height( borer ) {
+		if ( !borer.scanners )
+			return;
 		var scanner = borer.scanners.cursed();
 		if ( scanner )
 			borer.height = scanner.pos;
